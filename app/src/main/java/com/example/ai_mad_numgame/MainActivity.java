@@ -71,13 +71,48 @@ public class MainActivity extends AppCompatActivity {
 
     public void newMatch() {  //A game is composed of three matches
 
-        int operand1 = random.nextInt(10);
-        int operand2=0;
+        int operand1=random.nextInt(10);
+        int operand2=random.nextInt(9) +1;
+        correctButton=random.nextInt(4);
+
         //check is operand2 is not zero; otherwise in case of division-divide by zero error will come
         String operator = operators[random.nextInt(4)];
         textView2.setText(operand1 + operator + operand2);
 
-      // Your code here, to diplay correct and incorrect options on the buttons
+        int correctAnswer=-100;
+        if(operator.equals("+"))
+            correctAnswer=operand1+operand2;
+        else if(operator.equals("-"))
+            correctAnswer=operand1-operand2;
+        else if(operator.equals("*"))
+            correctAnswer=operand1*operand2;
+        else
+            correctAnswer=operand1/operand2;
+
+        if(correctButton==0){
+            button1.setText(correctAnswer+"");
+            button2.setText(correctAnswer+1+"");
+            button3.setText(correctAnswer-1+"");
+            button4.setText(correctAnswer+2+"");
+        }
+        else if(correctButton==1){
+            button1.setText(correctAnswer+1+"");
+            button2.setText(correctAnswer+"");
+            button3.setText(correctAnswer-1+"");
+            button4.setText(correctAnswer+2+"");
+        }
+        else if(correctButton==2){
+            button1.setText(correctAnswer-1+"");
+            button2.setText(correctAnswer+1+"");
+            button3.setText(correctAnswer+"");
+            button4.setText(correctAnswer+2+"");
+        }
+        else if(correctButton==3){
+            button1.setText(correctAnswer+2+"");
+            button2.setText(correctAnswer+1+"");
+            button3.setText(correctAnswer-1+"");
+            button4.setText(correctAnswer+"");
+        }
 
         if(matchCounter==3){    // if three matches are completed updatee the perfomrance in sharedpreferences
 
@@ -113,8 +148,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getInterpretation(int [][]dataFrame,double slope){
+        String interpretation="default interpretation";
+        if(slope>0&&slope<=0.5)
+            interpretation="you are a slow learner";
+        else if(slope>0.5)
+            interpretation="you are fast learner";
+        else if(slope<0)
+        {
+            interpretation="you are an un learner";
+        }
+        else if (dataFrame[0][1]==3 && slope==0)
+            interpretation="you achieved perfection";
+        else if(dataFrame[0][1]==0&&slope==0)
+            interpretation="you don't learn at all";
+
+
        //provide interpretation based on your slope analysis
         // Your code here
-        return "Your Interpretation";
+        return interpretation;
     }
 }
